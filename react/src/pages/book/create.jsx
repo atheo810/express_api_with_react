@@ -1,4 +1,4 @@
-export default function ShoeCreate() {
+export default function BookCreate() {
   return (
     <div>
       <p>Create Page</p>

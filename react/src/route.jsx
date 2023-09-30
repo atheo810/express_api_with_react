@@ -4,10 +4,10 @@ import LayoutMain from "./layouts/main";
 
 // import page
 import Home from "./pages/home";
-import ShoeList from "./pages/shoe/list";
-import ShoeCreate from "./pages/shoe/create";
-import ShoeDetail from "./pages/shoe/detail";
-import ShoeEdit from "./pages/shoe/edit";
+import BookList from "./pages/book/list";
+import BookCreate from "./pages/book/create";
+import BookDetail from "./pages/book/detail";
+import BookEdit from "./pages/book/edit";
 
 const router = createBrowserRouter([
   {
@@ -16,20 +16,20 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       {
-        path: "/shoe",
-        element: <ShoeList />,
+        path: "/book",
+        element: <BookList />,
       },
       {
-        path: "/shoe/create",
-        element: <ShoeCreate />,
+        path: "/book/create",
+        element: <BookCreate />,
       },
       {
-        path: "/shoe/:id/detail",
-        element: <ShoeDetail />,
+        path: "/book/:id/detail",
+        element: <BookDetail />,
       },
       {
-        path: "/shoe/:id/edit",
-        element: <ShoeEdit />,
+        path: "/book/:id/edit",
+        element: <BookEdit />,
       },
     ],
   },

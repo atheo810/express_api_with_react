@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 
-export default function ShoeList() {
+export default function BookList() {
   return (
     <div>
       <p>ListPage</p>

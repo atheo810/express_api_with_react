@@ -1,4 +1,4 @@
-export default function ShoeEdit() {
+export default function BookEdit() {
   return (
     <div>
       <p>Edit Page</p>
