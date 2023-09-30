@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Navbar, Group, Title, Flex, MediaQuery } from "@mantine/core";
 import {
   IconDashboard,
-  IconShoe,
+  IconBook,
   IconCategory,
   IconLogout,
   IconX,
@@ -12,7 +12,7 @@ import { useStyles } from "./style";
 
 const links = [
   { link: "/", label: "Dashboard", icon: IconDashboard },
-  { link: "/shoe", label: "Shoes", icon: IconShoe },
+  { link: "/book", label: "Book", icon: IconBook },
   { link: "/category", label: "Category", icon: IconCategory },
 ];
 
@@ -36,8 +36,8 @@ export default function NavbarMain({ status, onToggle }) {
             style={{ width: "100%" }}
           >
             <Flex direction="row" align="center" gap="sm">
-              <IconShoe size={30} strokeWidth={2} />
-              <Title order={3}>BDC Shoe</Title>
+              <IconBook size={30} strokeWidth={2} />
+              <Title order={3}>Atheo Book Store</Title>
             </Flex>
 
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
