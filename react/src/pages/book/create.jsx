@@ -1,8 +1,16 @@
-import { Link, Form, redirect } from "react-router-dom";
+import {
+  Link,
+  Form,
+  redirect,
+  useNavigation,
+  useActionData,
+  useLoaderData,
+} from "react-router-dom";
 import {
   Button,
   Flex,
   Group,
+  Select,
   NumberInput,
   Radio,
   TextInput,
@@ -14,6 +22,20 @@ import { IconArrowBack } from "@tabler/icons-react";
 export async function action({ request }) {
   const formData = await request.formData();
   const payload = Object.fromEntries(formData);
+
+  const errors = {};
+
+  if (Number(formData.get("qty")) < 1) {
+    errors.qty = "Qty should be more than zero";
+  }
+
+  if (Number(formData.get("price")) < 0) {
+    errors.price = "Price should be start from zero";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return errors;
+  }
   await fetch("http://localhost:3000/api/book", {
     method: "POST",
     headers: {
@@ -25,7 +47,26 @@ export async function action({ request }) {
   return redirect("/book");
 }
 
+export async function loader() {
+  const response = await fetch("http://localhost:3000/api/category");
+  const payload = await response.json();
+
+  const categories = payload.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
+
+  return { categories };
+}
+
 export default function PageShoeCreate() {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const data = useLoaderData();
+
+  const errors = useActionData();
+
   return (
     <>
       <Flex direction="row" align="center" justify="space-between" mb="md">
@@ -45,7 +86,6 @@ export default function PageShoeCreate() {
 
       <Form
         method="post"
-        action="/book/create"
         style={{ display: "flex", flexDirection: "column", gap: "16px" }}
       >
         <TextInput
@@ -54,6 +94,7 @@ export default function PageShoeCreate() {
           label="Name"
           placeholder="Input book name"
           name="name"
+          required
         />
 
         <TextInput
@@ -62,6 +103,17 @@ export default function PageShoeCreate() {
           label="Merk"
           placeholder="Input book Category"
           name="merk"
+          required
+        />
+
+        <Select
+          label="Category"
+          placeholder="Please choose one"
+          withAsterisk
+          size="md"
+          name="categoryId"
+          required
+          data={data.categories}
         />
 
         <NumberInput
@@ -70,6 +122,7 @@ export default function PageShoeCreate() {
           label="Quantity"
           placeholder="Input book qty"
           name="qty"
+          error={errors?.qty}
         />
 
         <NumberInput
@@ -78,6 +131,7 @@ export default function PageShoeCreate() {
           label="Price"
           placeholder="Input book price"
           name="price"
+          error={errors?.price}
         />
 
         <Textarea
@@ -86,6 +140,7 @@ export default function PageShoeCreate() {
           placeholder="Input book desc"
           label="Description"
           name="desc"
+          required
         />
 
         <Radio.Group
@@ -93,6 +148,7 @@ export default function PageShoeCreate() {
           withAsterisk
           size="md"
           name="available"
+          required
         >
           <Group mt="xs">
             <Radio value="true" label="Yes" />
@@ -101,7 +157,9 @@ export default function PageShoeCreate() {
         </Radio.Group>
 
         <Group position="left" mt="md">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" loading={isSubmitting}>
+            Submit
+          </Button>
         </Group>
       </Form>
     </>

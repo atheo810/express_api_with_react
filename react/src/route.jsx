@@ -8,12 +8,13 @@ import PageHome from "./pages/home";
 // import Book List
 import PageBookList, {
   loader as bookListLoader,
-  action as bookDeleteAction,
+  action as bookListAction,
 } from "./pages/book/list";
 
 // import Book Create
 import PageBookCreate, {
   action as bookCreateAction,
+  loader as bookCreateLoader,
 } from "./pages/book/create";
 
 // import Book Detail
@@ -27,6 +28,21 @@ import PageBookEdit, {
   loader as bookEditLoader,
 } from "./pages/book/edit";
 
+// category
+import PageCategoryList, {
+  action as actionCategoryList,
+  loader as loaderCategoryList,
+} from "./pages/category/list";
+
+import PageCategoryCreate, {
+  action as actionCategoryCreate,
+} from "./pages/category/create";
+
+import PageCategoryEdit, {
+  loader as loaderCategoryEdit,
+  action as actionCategoryEdit,
+} from "./pages/category/edit";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,27 +53,55 @@ const router = createBrowserRouter([
         path: "/book",
         element: <Outlet />,
         children: [
-          { index: true, element: <PageBookList />, loader: bookListLoader },
+          {
+            index: true,
+            element: <PageBookList />,
+            loader: bookListLoader,
+            action: bookListAction,
+          },
           {
             path: "/book/create",
             element: <PageBookCreate />,
             action: bookCreateAction,
+            loader: bookCreateLoader,
           },
           {
-            path: "/book/:id/detail",
+            path: ":id/detail",
             element: <PageBookDetail />,
             loader: bookDetailLoader,
           },
           {
-            path: "/book/:id/edit",
+            path: ":id/edit",
             element: <PageBookEdit />,
             loader: bookEditLoader,
             action: bookEditAction,
           },
-          { path: "/book/list", loader: bookListLoader },
           {
-            path: "/book/:id/delete",
-            loader: bookDeleteAction,
+            path: ":id/delete",
+            action: bookListAction,
+          },
+        ],
+      },
+      {
+        path: "/category",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <PageCategoryList />,
+            action: actionCategoryList,
+            loader: loaderCategoryList,
+          },
+          {
+            path: "create",
+            element: <PageCategoryCreate />,
+            action: actionCategoryCreate,
+          },
+          {
+            path: ":id/edit",
+            element: <PageCategoryEdit />,
+            loader: loaderCategoryEdit,
+            action: actionCategoryEdit,
           },
         ],
       },
